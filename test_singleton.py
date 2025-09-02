@@ -7,7 +7,7 @@ class Singleton(type):
     _instances = []
 
     def __call__(self, *args, **kwargs):
-        print(f"Singleton.__call__ {self = }, {args = }, {kwargs = }")
+        print(f"{Singleton._instances = }")
         if self in Singleton._instances:
             return self
         else:
