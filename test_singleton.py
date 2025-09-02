@@ -21,7 +21,7 @@ class Spam(metaclass=Singleton):
         self.text = text
 
     def show(self):
-        print(f"{self.text = }")
+        print("self.text = {:10s}".format(self.text))
 
 
 if __name__ == "__main__":
