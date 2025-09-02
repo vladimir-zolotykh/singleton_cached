@@ -4,7 +4,7 @@
 
 
 class Singleton(type):
-    _instances = {}
+    _instances = {}  # instances of Spam class
 
     def __call__(cls, *args, **kwargs):
         if cls in Singleton._instances:
