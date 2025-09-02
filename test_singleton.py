@@ -3,21 +3,31 @@
 # PYTHON_ARGCOMPLETE_OK
 
 
-class NoInstance(type):
+class Singleton(type):
+    _instances = []
+
     def __call__(self, *args, **kwargs):
-        print(f"{self.__class__ = }, {args = }, {kwargs = }")
-        raise TypeError("Can't instantiate directly")
+        print(f"Singleton.__call__ {self = }, {args = }, {kwargs = }")
+        if self in Singleton._instances:
+            return self
+        else:
+            obj = super().__call__(*args, **kwargs)
+            Singleton._instances.append(obj)
+            return obj
 
 
-class Spam(metaclass=NoInstance):
-    def __init__(self, *args, **kwargs):
-        print("Spam initialized")
+class Spam(metaclass=Singleton):
+    def __init__(self, text):
+        print("Spam.__init__ is called")
+        self.text = text
 
-    @classmethod
-    def grok(cls):
-        print("Spam.grok is called")
+    def show(self):
+        print(f"{self.text = }")
 
 
 if __name__ == "__main__":
-    Spam.grok()
-    Spam()
+    s1 = Spam("foo")
+    s2 = Spam("foo")
+    s1.show()
+    s2.show()
+    # assert s1 is s2
