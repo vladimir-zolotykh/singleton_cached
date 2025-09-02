@@ -4,15 +4,14 @@
 
 
 class Singleton(type):
-    _instances = []
+    _instances = {}
 
-    def __call__(self, *args, **kwargs):
-        print(f"{Singleton._instances = }")
-        if self in Singleton._instances:
-            return self
+    def __call__(cls, *args, **kwargs):
+        if cls in Singleton._instances:
+            return Singleton._instances[cls]
         else:
             obj = super().__call__(*args, **kwargs)
-            Singleton._instances.append(obj)
+            Singleton._instances[cls] = obj
             return obj
 
 
@@ -27,7 +26,9 @@ class Spam(metaclass=Singleton):
 
 if __name__ == "__main__":
     s1 = Spam("foo")
-    s2 = Spam("foo")
+    s2 = Spam("bar")
+    s3 = Spam("baz")
     s1.show()
     s2.show()
-    # assert s1 is s2
+    s3.show()
+    assert s1 is s2
