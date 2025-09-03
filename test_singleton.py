@@ -20,7 +20,7 @@ class Spam(metaclass=Singleton):
     >>> s1 = Spam("foo")
     Spam.__init__ is called
     >>> s1.show()
-    foo
+    self.text = 'foo'
     >>> s2 = Spam("bar")
     >>> assert s1 is s2
     """
@@ -30,7 +30,7 @@ class Spam(metaclass=Singleton):
         self.text = text
 
     def show(self):
-        print("foo")
+        print(f"{self.text = }")
         # print("self.text = {:10s}".format(self.text))
 
 
