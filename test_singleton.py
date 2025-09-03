@@ -16,19 +16,25 @@ class Singleton(type):
 
 
 class Spam(metaclass=Singleton):
+    """
+    >>> s1 = Spam("foo")
+    Spam.__init__ is called
+    >>> s1.show()
+    foo
+    >>> s2 = Spam("bar")
+    >>> assert s1 is s2
+    """
+
     def __init__(self, text):
         print("Spam.__init__ is called")
         self.text = text
 
     def show(self):
-        print("self.text = {:10s}".format(self.text))
+        print("foo")
+        # print("self.text = {:10s}".format(self.text))
 
 
 if __name__ == "__main__":
-    s1 = Spam("foo")
-    s2 = Spam("bar")
-    s3 = Spam("baz")
-    s1.show()
-    s2.show()
-    s3.show()
-    assert s1 is s2
+    import doctest
+
+    doctest.testmod()
