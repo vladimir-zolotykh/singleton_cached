@@ -5,7 +5,7 @@ from collections import defaultdict
 
 
 class Cached(type):
-    _instances = defaultdict(defaultdict)
+    _instances = defaultdict(dict)
 
     def __call__(cls, msg):
         if cls in Cached._instances:
