@@ -17,7 +17,7 @@ class Cached(type):
                 return obj
         else:
             obj = super().__call__(msg)
-            Cached._instances[cls] = dict(msg=obj)
+            Cached._instances[cls] = {msg: obj}
             return obj
 
 
