@@ -5,14 +5,12 @@ from collections import defaultdict
 
 
 class Cached(type):
-    # _instances = {}
     _instances = defaultdict(defaultdict)
 
     def __call__(cls, msg):
         if cls in Cached._instances:
-            grp = Cached._instances[cls]
-            if msg in grp:
-                return grp[msg]
+            if msg in Cached._instances[cls]:
+                return Cached._instances[cls][msg]
         obj = super().__call__(msg)
         Cached._instances[cls][msg] = obj
         return obj
