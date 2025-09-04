@@ -3,40 +3,6 @@
 # PYTHON_ARGCOMPLETE_OK
 
 
-class _Cached(type):
-    _instances = {}
-
-    def __call__(cls, msg):
-        if cls in _Cached._instances:
-            if msg in _Cached._instances[cls]:
-                return _Cached._instances[cls][msg]
-        obj = super().__call__(msg)
-        if cls not in _Cached._instances:
-            _Cached._instances[cls] = dict(msg=obj)
-        else:
-            _Cached._instances[cls][msg] = obj
-        return obj
-
-
-class Spam2(metaclass=_Cached):
-    """
-    >>> p1 = Spam2("foo")
-    Spam2 initialized
-    >>> p2 = Spam2("bar")
-    Spam2 initialized
-    >>> p3 = Spam2("foo")
-    >>> p1 is p3
-    True
-    """
-
-    def __init__(self, msg):
-        print("Spam2 initialized")
-        self.msg = msg
-
-    def show(self):
-        print("self.msg = {:s}".format(self.msg))
-
-
 class Singleton(type):
     _instances = {}  # instances of Spam class
 
