@@ -13,16 +13,9 @@ class Cached(type):
             grp = Cached._instances[cls]
             if msg in grp:
                 return grp[msg]
-            else:
-                obj = super().__call__(msg)
-                # grp[msg] = obj
-                Cached._instances[cls][msg] = obj
-                return obj
-        else:
-            obj = super().__call__(msg)
-            Cached._instances[cls][msg] = obj
-            # Cached._instances[cls] = {msg: obj}
-            return obj
+        obj = super().__call__(msg)
+        Cached._instances[cls][msg] = obj
+        return obj
 
 
 class Spam(metaclass=Cached):
