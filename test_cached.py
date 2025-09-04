@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # PYTHON_ARGCOMPLETE_OK
+from collections import defaultdict
 
 
 class Cached(type):
-    _instances = {}
+    # _instances = {}
+    _instances = defaultdict(defaultdict)
 
     def __call__(cls, msg):
         if cls in Cached._instances:
@@ -13,11 +15,13 @@ class Cached(type):
                 return grp[msg]
             else:
                 obj = super().__call__(msg)
-                grp[msg] = obj
+                # grp[msg] = obj
+                Cached._instances[cls][msg] = obj
                 return obj
         else:
             obj = super().__call__(msg)
-            Cached._instances[cls] = {msg: obj}
+            Cached._instances[cls][msg] = obj
+            # Cached._instances[cls] = {msg: obj}
             return obj
 
 
