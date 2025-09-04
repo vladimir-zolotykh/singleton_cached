@@ -4,33 +4,29 @@
 
 
 class Singleton(type):
-    _instances = {}  # instances of Spam class
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._instance = None
 
-    def __call__(cls, *args, **kwargs):
-        if cls in Singleton._instances:
-            return Singleton._instances[cls]
+    def __call__(self, *args, **kwargs):
+        if self._instance:
+            return self._instance
         else:
             obj = super().__call__(*args, **kwargs)
-            Singleton._instances[cls] = obj
+            self._instance = obj
             return obj
 
 
 class Spam(metaclass=Singleton):
     """
-    >>> s1 = Spam("foo")
-    Spam.__init__ is called
-    >>> s1.show()
-    self.text = foo
-    >>> s2 = Spam("bar")
+    >>> s1 = Spam()
+    Spam initialized
+    >>> s2 = Spam()
     >>> assert s1 is s2
     """
 
-    def __init__(self, text):
-        print("Spam.__init__ is called")
-        self.text = text
-
-    def show(self):
-        print("self.text = {:s}".format(self.text))
+    def __init__(self):
+        print("Spam initialized")
 
 
 if __name__ == "__main__":
