@@ -9,31 +9,32 @@ class Cached(type):
         super().__init__(*args, **kwargs)
         self._instances = weakref.WeakValueDictionary()
 
-    def __call__(self, msg):  # self: <class Spam>, msg: "foo"
-        if msg in self._instances:
-            return self._instances[msg]
-        obj = super().__call__(msg)
-        self._instances[msg] = obj
+    def __call__(self, *args):  # self: <class Spam>, . . .
+        if args in self._instances:
+            return self._instances[args]
+        obj = super().__call__(*args)
+        self._instances[args] = obj
         return obj
 
 
 class Spam(metaclass=Cached):
     """
-    >>> s1 = Spam("foo")
+    >>> s1 = Spam("foo", 10)
     Spam initialized
-    >>> s2 = Spam("bar")
+    >>> s2 = Spam("foo", 20)
     Spam initialized
-    >>> s3 = Spam("foo")
+    >>> s3 = Spam("foo", 10)
     >>> s1 is s3
     True
     """
 
-    def __init__(self, msg):
+    def __init__(self, msg, val):
         print("Spam initialized")
         self.msg = msg
+        self.val = val
 
     def show(self):
-        print("self.msg = {:s}".format(self.msg))
+        print("self.msg = {:s}, self.val = {:d}".format(self.msg, self.val))
 
 
 if __name__ == "__main__":
