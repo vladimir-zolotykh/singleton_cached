@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # PYTHON_ARGCOMPLETE_OK
-from collections import defaultdict
+import weakref
 
 
 class Cached(type):
-    _instances = defaultdict(dict)
+    def __init__(self, *args, **kwargs):  # self: <class Spam>; args: ('Spam', ...)
+        super().__init__(*args, **kwargs)
+        self._instances = weakref.WeakValueDictionary()
 
-    def __call__(cls, msg):
-        meta = type(cls)  # Cached meta class
-        if cls in meta._instances:
-            if msg in meta._instances[cls]:
-                return meta._instances[cls][msg]
+    def __call__(self, msg):  # self: <class Spam>, msg: "foo"
+        if msg in self._instances:
+            return self._instances[msg]
         obj = super().__call__(msg)
-        meta._instances[cls][msg] = obj
+        self._instances[msg] = obj
         return obj
 
 
