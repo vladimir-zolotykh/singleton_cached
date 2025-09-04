@@ -8,11 +8,12 @@ class Cached(type):
     _instances = defaultdict(dict)
 
     def __call__(cls, msg):
-        if cls in Cached._instances:
-            if msg in Cached._instances[cls]:
-                return Cached._instances[cls][msg]
+        meta = type(cls)  # Cached meta class
+        if cls in meta._instances:
+            if msg in meta._instances[cls]:
+                return meta._instances[cls][msg]
         obj = super().__call__(msg)
-        Cached._instances[cls][msg] = obj
+        meta._instances[cls][msg] = obj
         return obj
 
 
