@@ -23,12 +23,12 @@ class Cached(type):
 
 class Spam(metaclass=Cached):
     """
-    >>> p1 = Spam("foo")
+    >>> s1 = Spam("foo")
     Spam initialized
-    >>> p2 = Spam("bar")
+    >>> s2 = Spam("bar")
     Spam initialized
-    >>> p3 = Spam("foo")
-    >>> p1 is p3
+    >>> s3 = Spam("foo")
+    >>> s1 is s3
     True
     """
 
